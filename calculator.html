@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="./calculator.css">
+	<link rel="stylesheet" type="text/css" href="./initialization.css">
+</head>
+<body>
+	<div id="continer">
+		<input type="text" value="0" id="val" name="val" readonly="readonly" />
+		<div class="buttons">
+			<button type="button" value="%" name="%" class="button" id="%" onclick="orderIn(this)">%</button>
+			<button type="button" value="√" name="root" class="button" id="root" onclick="imate(this)">√</button>
+			<button type="button" value="x^2" class="button" onclick="orderIn(this)">x^2</button>
+			<button type="button" value="1/x" name="upDown" class="button" id="upDown" onclick="imate(this)">1/x</button>
+			<button type="button" value="CE" name="CE" class="button" id="CE" onclick="funclear(this)">CE</button>
+		    <button type="button" value="C" name="C" class="button" id="C" onclick="clear()">C</button>
+		    <button type="button" value="←" name="back" class="button" id="back" onclick="funback()">←</button>	
+			<button type="button" value="/" name="div" class="button" id="div" onclick="orderIn(this)">/</button>
+			<button type="button" value="7" name="seven" class="button" id="seven" onclick="show(this)">7</button>
+			<button type="button" value="8" name="eight" class="button" id="eight" onclick="show(this)">8</button>
+			<button type="button" value="9" name="nine" class="button" id="nine" onclick="show(this)">9</button>
+			<button type="button" value="*" name="multi" class="button" id="multi" onclick="orderIn(this)">*</button>
+			<button type="button" class="button" id="four" name="four" value="4" onclick="show(this)">4</button>
+			<button type="button" class="button" id="five" name="five" value="5" onclick="show(this)">5</button>
+			<button type="button" class="button" id="six" name="six" value="6" onclick="show(this)">6</button>
+			<button type="button" class="button" id="minus" name="minus" value="-" onclick="orderIn(this)">-</button>
+			<button type="button" class="button" id="one" name="one" value="1" onclick="show(this)">1</button>
+			<button type="button"  class="button" id="two" name="two" value="2" onclick="show(this)">2</button>
+			<button type="button" class="button" id="three" name="three" value="3" onclick="show(this)">3</button>
+			<button type="button" class="button" id="plus" name="plus" value="+" onclick="orderIn(this)">+</button>
+			<button type="button" class="button" id="oppo" name="oppo" value="±" onclick="imate(this)">±</button>
+			<button type="button" class="button ling" value="0" name="zero" id="zero" onclick="show(this)">0</button>
+			<button type="button" class="button" id="dot" name="dot" value="." onclick="point(this)">.</button>
+			<button type="button" class="button" id="equal" name="equal" value="=" onclick="getResult(this)">=</button>
+			</div>
+
+
+<script>
+        var inputTemp;
+		var first;
+		var second;
+		var pointer=1;
+		var operator;
+		var afterCaculation=false;
+
+
+function show(obj){//数字
+
+    if( afterCaculation == false && operator && first && (!second) ){
+				
+			pointer = 2;
+				
+			document.getElementById("val").value = 0
+			
+			}
+
+	inputTemp = document.getElementById("val");
+
+	if( inputTemp.value == "0" ){ 
+			
+		inputTemp.value = obj.innerHTML;
+
+		}
+
+	else{
+
+			inputTemp.value = inputTemp.value + obj.innerHTML;
+
+			}
+
+	if(pointer == 1){
+
+				first = inputTemp.value;
+
+			} 
+
+	else if(pointer == 2){
+			
+				second = inputTemp.value;
+			
+			}
+		}
+
+//退格
+function funback(){
+
+	var val = document.getElementById("val");
+
+	if(val.value == "0" || val.value == ""){
+
+		val.value = "0";
+	}
+	else{
+
+		document.getElementById("val").value=document.getElementById("val").value.slice(0,-1);
+	}
+}
+
+//点
+function point(obj){
+
+	inputTemp.value = inputTemp.value + obj.innerHTML;
+
+}
+
+//CE
+function funclear(obj){
+
+    document.getElementById("val").value = "0";
+
+    if (pointer==1) {
+
+	first=0;
+
+	}
+
+    if(pointer==2){
+
+	second="uuu";
+
+    }
+
+	afterCaculation = true;
+
+}
+
+//C
+function clear(){
+
+	document.getElementById("val").value = "0";
+
+	first=0;
+
+	second=0;
+
+    pointer=1;
+
+	afterCaculation = false ;
+
+}
+
+//运算符
+function orderIn(obj){
+
+	operator = obj.innerHTML;
+
+	if(pointer == 1){
+		 	
+		 		pointer=2;
+		 	}
+
+		 	second = 0;
+
+		 	afterCaculation = false;
+		
+		 }
+
+//=
+function getResult(obj){
+
+	if(operator=="+"){	 			
+
+		 if(!second){//连加
+		 	
+		 	second = first;
+
+		 	}
+
+		 first = (first - 0) + (second - 0);
+		 			
+		 		}
+
+    if(operator=='-'){//连减
+
+    	if(!second&&second!="uuu"){
+
+		 	second = first;
+
+		 	}
+
+		 if(second="uuu"){
+
+		 	second=0;
+
+		 }
+
+		first = (first - 0) - (second - 0);
+
+    }
+
+    if(operator=='*'){
+
+    	if(!second){
+
+		 	second = first;
+
+		 	}
+
+		first = (first - 0) * (second - 0) ;
+
+    }
+
+    if(operator=='/'){
+
+    	if(!second){
+
+		 	second = first;
+
+		 	}
+
+    	if(second==0){
+
+    		first="ERROR";
+
+    	}
+        else{
+
+		 first = (first-0) / (second-0);
+
+        }
+
+    }
+     pointer=3;
+
+	 inputTemp.value = first;
+
+	 pointer = 1;
+
+	 afterCaculation = true;
+
+		 }
+
+function imate(obj){
+
+	operator = obj.innerHTML;
+
+	if(pointer == 1){
+		 	
+		 		pointer=2;
+		 	}
+
+	second = 0;
+		 	
+	afterCaculation = false;
+
+    if(operator=='±'){
+
+        first = 0 - (first-0);
+  
+    }
+
+    if (operator=='√') {
+
+		 first = Math.sqrt(first);
+
+    }
+
+    if (operator=='1/x') {
+
+    	first = 1 / (first-0) ;
+
+    }
+
+     inputTemp.value = first;
+
+	 pointer = 1;
+
+	 afterCaculation = true;
+
+}
+
+</script>
+
+</body>
+</html>
